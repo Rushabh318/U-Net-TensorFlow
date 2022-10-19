@@ -5,6 +5,8 @@
 * **Research Paper**: Ronneberger et al., [U-Net](https://arxiv.org/abs/1505.04597) Convolutional Networks for Biomedical Image Segmentation
 * **Packages Used**: TensorFlow, NumPy, scikit-learn, python-Pillow, imageio, matplotlib
 
-Run train.py to start training.\
+Run train.py to start training.
 
 Corresponding notebook for the training scripts available on notebook branch.
+
+![alt text](https://github.com/Rushabh318/U_Net_TensorFlow/blob/main/u-net-architecture.png)
