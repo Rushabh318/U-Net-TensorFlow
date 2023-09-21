@@ -59,12 +59,12 @@ def DecoderMiniBlock(prev_layer_input, skip_layer_input, n_filters=32):
 def UNetCompiled(input_size=(128, 128, 3), n_filters=32, n_classes=3):
 
    inputs = Input(input_size)
-
-   cblock1 = EncoderMiniBlock(inputs, n_filters,dropout_prob=0, max_pooling=True)
-   cblock2 = EncoderMiniBlock(cblock1[0],n_filters*2,dropout_prob=0, max_pooling=True)
-   cblock3 = EncoderMiniBlock(cblock2[0], n_filters*4,dropout_prob=0, max_pooling=True)
-   cblock4 = EncoderMiniBlock(cblock3[0], n_filters*8,dropout_prob=0.3, max_pooling=True)
-   cblock5 = EncoderMiniBlock(cblock4[0], n_filters*16, dropout_prob=0.3, max_pooling=False) 
+   
+   cblock1 = EncoderMiniBlock(inputs, n_filters,dropout_prob=0.0, max_pooling=True)
+   cblock2 = EncoderMiniBlock(cblock1[0],n_filters*2,dropout_prob=0.0, max_pooling=True)
+   cblock3 = EncoderMiniBlock(cblock2[0], n_filters*4,dropout_prob=0.0, max_pooling=True)
+   cblock4 = EncoderMiniBlock(cblock3[0], n_filters*8,dropout_prob=0.4, max_pooling=True)
+   cblock5 = EncoderMiniBlock(cblock4[0], n_filters*16, dropout_prob=0.4, max_pooling=False) 
     
    ublock6 = DecoderMiniBlock(cblock5[0], cblock4[1],  n_filters * 8)
    ublock7 = DecoderMiniBlock(ublock6, cblock3[1],  n_filters * 4)
@@ -79,6 +79,8 @@ def UNetCompiled(input_size=(128, 128, 3), n_filters=32, n_classes=3):
 
    conv10 = Conv2D(n_classes, 1, padding='same')(conv9)
     
-   model = tf.keras.Model(inputs=inputs, outputs=conv10)
+   dense = tf.keras.layers.Dense(n_classes, activation='softmax')(conv10)
+    
+   model = tf.keras.Model(inputs=inputs, outputs=dense)
 
    return model
